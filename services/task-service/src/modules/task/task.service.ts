@@ -1,15 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { Task } from "./task.entity";
-import { CreateTaskDto } from "./dto/create-task.dto";
-import { KafkaProducer } from "../kafka/kafka.producer";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Task } from './task.entity';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { KafkaProducer } from '../kafka/kafka.producer';
 
 @Injectable()
 export class TaskService {
   constructor(
-      @InjectModel(Task.name) private readonly taskModel: Model<Task>,
-      private readonly kafkaProducer: KafkaProducer
+    @InjectModel(Task.name) private readonly taskModel: Model<Task>,
+    private readonly kafkaProducer: KafkaProducer,
   ) {}
 
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
@@ -28,7 +28,11 @@ export class TaskService {
   }
 
   async update(id: string, updateTaskDto: CreateTaskDto): Promise<Task> {
-    const updatedTask = await this.taskModel.findByIdAndUpdate(id, updateTaskDto, { new: true });
+    const updatedTask = await this.taskModel.findByIdAndUpdate(
+      id,
+      updateTaskDto,
+      { new: true },
+    );
     await this.kafkaProducer.emit('task-updated', updatedTask);
     return updatedTask;
   }
