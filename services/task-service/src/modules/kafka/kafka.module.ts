@@ -1,8 +1,7 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { KafkaProducer } from './kafka.producer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-@Global()
 @Module({
   imports: [ConfigModule.forRoot()], // Import ConfigModule for accessing environment variables
   providers: [

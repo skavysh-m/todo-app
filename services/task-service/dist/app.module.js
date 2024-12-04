@@ -21,7 +21,7 @@ exports.AppModule = AppModule = __decorate([
             config_1.ConfigModule.forRoot({ isGlobal: true }),
             mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URI ?? 'mongodb://localhost:27017/task-service'),
             task_module_1.TaskModule,
-            kafka_module_1.KafkaModule
+            kafka_module_1.KafkaModule,
         ],
     })
 ], AppModule);
